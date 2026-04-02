@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OstaFeedbackApp.Models;
 
@@ -12,9 +12,8 @@ namespace OstaFeedbackApp.Data
         }
 
         public DbSet<Feedback> Feedbacks { get; set; }
-<<<<<<< HEAD
-=======
+
+        // Added from merged branch (REQUIRED for dynamic questions)
         public DbSet<Question> Questions { get; set; }
->>>>>>> a47f374 (Clean repo without large files)
     }
 }
