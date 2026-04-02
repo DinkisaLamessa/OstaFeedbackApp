@@ -1,9 +1,5 @@
-﻿using System;
-<<<<<<< HEAD
-=======
+using System;
 using System.ComponentModel.DataAnnotations;
-
->>>>>>> a47f374 (Clean repo without large files)
 
 namespace OstaFeedbackApp.Models
 {
@@ -11,50 +7,74 @@ namespace OstaFeedbackApp.Models
     {
         public int Id { get; set; }
 
-        // Section 1 (Required ratings)
+        // =============================
+        // SECTION 1: Ratings (Required)
+        // =============================
+        [Range(1, 5)]
         public int Commitment { get; set; }
+
+        [Range(1, 5)]
         public int Transparency { get; set; }
+
+        [Range(1, 5)]
         public int Innovation { get; set; }
+
+        [Range(1, 5)]
         public int CommunityImpact { get; set; }
+
+        [Range(1, 5)]
         public int YouthOpportunity { get; set; }
 
-        // Section 2 (Optional text)
+        // =============================
+        // SECTION 2: Optional Text
+        // =============================
         public string? Impressed { get; set; }
         public string? Improvement { get; set; }
         public string? DigitalService { get; set; }
         public string? YouthSupport { get; set; }
 
-        // Section 3 (Optional info)
+        // =============================
+        // SECTION 3: Optional Info
+        // =============================
         public string? AgeGroup { get; set; }
         public string? Occupation { get; set; }
         public string? Region { get; set; }
 
-        // Optional (only if used)
+        // =============================
+        // EXTRA
+        // =============================
         public string? VisitorType { get; set; }
         public string? Department { get; set; }
-        //public DateTime Date { get; set; } // or FeedbackDate if you have it
 
         public DateTime CreatedAt { get; set; }
     }
-<<<<<<< HEAD
-}
-=======
+
+    // =============================
+    // DYNAMIC QUESTIONS MODEL
+    // =============================
     public class Question
     {
         public int Id { get; set; }
 
+        // Maps to Feedback property (e.g. "Commitment")
+        [Required]
         public string Property { get; set; } = string.Empty;
 
-        // 🌍 MULTI-LANGUAGE ONLY
+        // 🌍 Multi-language support
+        [Required]
         public string TextEn { get; set; } = string.Empty;
+
+        [Required]
         public string TextAm { get; set; } = string.Empty;
+
+        [Required]
         public string TextOr { get; set; } = string.Empty;
 
         public bool IsRequired { get; set; }
+
+        [Range(1, 10)]
         public int MaxRating { get; set; } = 5;
 
         public bool IsEnabled { get; set; } = true;
     }
 }
-
->>>>>>> a47f374 (Clean repo without large files)
