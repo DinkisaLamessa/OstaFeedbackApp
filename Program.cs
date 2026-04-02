@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstaFeedbackApp.Data;
-//using OstaFeedbackApp.Hubs;
-=======
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using OstaFeedbackApp.Data;
 using OstaFeedbackApp.Hubs;
->>>>>>> a47f374 (Clean repo without large files)
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,42 +56,28 @@ builder.Services.AddRazorPages();
 // --------------------
 // SIGNALR
 // --------------------
-<<<<<<< HEAD
-//builder.Services.AddSignalR();
-=======
 builder.Services.AddSignalR();
->>>>>>> a47f374 (Clean repo without large files)
 
 // --------------------
 // BUILD APP
 // --------------------
 var app = builder.Build();
 
-<<<<<<< HEAD
-
-// ============================
-// ✅ APPLY DATABASE MIGRATIONS
-// ============================
+// --------------------
+// APPLY DATABASE MIGRATIONS
+// --------------------
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
 
-
-// ============================
-// ✅ ROLE SEEDING
-// ============================
-=======
 // --------------------
 // ROLE SEEDING (Admin/Manager/Viewer)
-// Must be AFTER app.Build() because we need scope
 // --------------------
->>>>>>> a47f374 (Clean repo without large files)
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
     string[] roles = { "Admin", "Manager", "Viewer" };
 
     foreach (var role in roles)
@@ -110,10 +89,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> a47f374 (Clean repo without large files)
 // --------------------
 // MIDDLEWARE
 // --------------------
@@ -134,11 +109,7 @@ app.UseAuthorization();
 // --------------------
 // SIGNALR HUB
 // --------------------
-<<<<<<< HEAD
-//app.MapHub<FeedbackHub>("/feedbackHub");
-=======
 app.MapHub<FeedbackHub>("/feedbackHub");
->>>>>>> a47f374 (Clean repo without large files)
 
 // --------------------
 // ROUTES
@@ -149,8 +120,4 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-<<<<<<< HEAD
 app.Run();
-=======
-app.Run();
->>>>>>> a47f374 (Clean repo without large files)
