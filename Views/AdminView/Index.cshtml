@@ -1,0 +1,190 @@
+﻿@model IEnumerable<OstaFeedbackApp.Models.Question>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2 class="mb-3">📋 Manage Questions</h2>
+
+<!-- ADD BUTTON -->
+<a class="btn btn-primary mb-3" href="@Url.Action("Create")">➕ Add New Question</a>
+
+<!-- ANTI FORGERY FOR AJAX -->
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<!-- TABLE -->
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Question</th>
+                <th>Property</th>
+                <th>Required</th>
+                <th>Max</th>
+                <th>Status</th>
+                <th width="220">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var q in Model)
+                {
+                    var rowClass = q.IsEnabled ? "" : "table-secondary";
+
+                    <tr class="@rowClass">
+
+                        <td>@q.Id</td>
+
+                        <!-- 🌍 MULTI LANGUAGE TEXT -->
+                        <td>
+                            <span class="q-text"
+                                  data-en="@q.TextEn"
+                                  data-am="@q.TextAm"
+                                  data-or="@q.TextOr">
+                                @q.TextEn
+                            </span>
+                        </td>
+
+                        <td><code>@q.Property</code></td>
+
+                        <td>
+                            <span class="badge @(q.IsRequired ? "bg-success" : "bg-secondary")">
+                                @(q.IsRequired ? "Required" : "Optional")
+                            </span>
+                        </td>
+
+                        <td>@q.MaxRating</td>
+
+                        <td>
+                            <span class="badge @(q.IsEnabled ? "bg-success" : "bg-danger")">
+                                @(q.IsEnabled ? "Enabled" : "Disabled")
+                            </span>
+                        </td>
+
+                        <td>
+                            <!-- TOGGLE -->
+                            <button class="btn btn-sm toggle-enable-btn @(q.IsEnabled ? "btn-warning" : "btn-success")"
+                                    data-id="@q.Id">
+                                @(q.IsEnabled ? "Disable" : "Enable")
+                            </button>
+
+                            <!-- EDIT -->
+                            <a class="btn btn-sm btn-primary"
+                               href="@Url.Action("Edit", new { id = q.Id })">
+                                ✏️
+                            </a>
+
+                            <!-- DELETE -->
+                            <form asp-action="Delete"
+                                  asp-route-id="@q.Id"
+                                  method="post"
+                                  style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Delete this question?');">
+                                    🗑
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted">
+                        No questions found.
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(function () {
+
+            // 🌍 LANGUAGE APPLY
+            function applyLanguage(lang) {
+                $('.q-text').each(function () {
+                    const text = $(this).data(lang);
+                    if (text && text.trim() !== "") {
+                        $(this).text(text);
+                    }
+                });
+            }
+
+            const lang = localStorage.getItem("lang") || "en";
+            applyLanguage(lang);
+
+            // 🔘 ENABLE / DISABLE
+            $('.toggle-enable-btn').click(function () {
+
+                const btn = $(this);
+                const id = btn.data('id');
+
+                const token = $('#antiForgeryForm input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: '@Url.Action("ToggleQuestion", "Feedback")',
+                    type: 'POST',
+                    data: { id: id },
+                    headers: {
+                        'RequestVerificationToken': token
+                    },
+                    success: function () {
+
+                        const row = btn.closest('tr');
+                        const statusBadge = row.find('td:nth-child(6) span');
+
+                        const isEnabled = btn.text().trim() === "Enable";
+
+                        if (isEnabled) {
+                            btn.text("Disable")
+                               .removeClass("btn-success")
+                               .addClass("btn-warning");
+
+                            row.removeClass("table-secondary");
+
+                            statusBadge
+                                .removeClass("bg-danger")
+                                .addClass("bg-success")
+                                .text("Enabled");
+
+                        } else {
+                            btn.text("Enable")
+                               .removeClass("btn-warning")
+                               .addClass("btn-success");
+
+                            row.addClass("table-secondary");
+
+                            statusBadge
+                                .removeClass("bg-success")
+                                .addClass("bg-danger")
+                                .text("Disabled");
+                        }
+                    },
+                    error: function () {
+                        alert("❌ Error updating question.");
+                    }
+                });
+
+            });
+
+        });
+    </script>
+}

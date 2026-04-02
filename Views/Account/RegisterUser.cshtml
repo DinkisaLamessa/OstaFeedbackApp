@@ -1,0 +1,44 @@
+﻿@model OstaFeedbackApp.Models.RegisterUserViewModel
+
+<h3 class="mb-3">👤 Create New User</h3>
+
+<!-- ================= BACK TO DASHBOARD ================= -->
+<a href="/Feedback/Dashboard" class="btn btn-secondary mb-3">⬅ Back to Dashboard</a>
+
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Password</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Role</label>
+        <select asp-for="Role" class="form-select">
+            <option value="">-- Select Role --</option>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Viewer">Viewer</option>
+        </select>
+        <span asp-validation-for="Role" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create User</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

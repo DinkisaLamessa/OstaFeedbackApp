@@ -1,0 +1,33 @@
+body {
+    background: #f4f6f8;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.dark-mode {
+    background: #1e1e2f;
+    color: #fff;
+}
+
+.card-x {
+    border-radius: 12px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.topbar {
+    background: #1e90ff;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

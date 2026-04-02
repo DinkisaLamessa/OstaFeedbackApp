@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>OSTA Exhibition</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #003366, #1E90FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        .logo {
+            animation: fadeIn 2s ease;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="/images/osta-logo.webp" style="height:100px;" />
+        <h2>OSTA Digital Exhibition</h2>
+        <p>Loading experience...</p>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = "/Home/Index";
+        }, 3000);
+    </script>
+</body>
+</html>

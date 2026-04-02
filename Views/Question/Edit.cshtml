@@ -1,0 +1,174 @@
+﻿@model OstaFeedbackApp.Models.Question
+
+@{
+    Layout = "_Layout";
+    var isEdit = Model?.Id > 0;
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg border-0 rounded-4 p-4">
+
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-primary fw-bold">
+                @(isEdit ? "✏️ Edit Question" : "➕ Add New Question")
+            </h3>
+        </div>
+
+        <form asp-action="EditQuestion" method="post">
+            @Html.AntiForgeryToken()
+
+            @if (isEdit)
+            {
+                <input type="hidden" asp-for="Id" />
+            }
+
+            <!-- PROPERTY -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Property (Mapping to Feedback Model)</label>
+
+                @if (isEdit)
+                {
+                    <select asp-for="Property" class="form-select" disabled>
+                        <option value="Commitment">Commitment</option>
+                        <option value="Transparency">Transparency</option>
+                        <option value="Innovation">Innovation</option>
+                        <option value="CommunityImpact">Community Impact</option>
+                        <option value="YouthOpportunity">Youth Opportunity</option>
+                    </select>
+
+                    <input type="hidden" asp-for="Property" />
+                }
+                else
+                {
+                    <select asp-for="Property" class="form-select" required>
+                        <option value="">-- Select Property --</option>
+                        <option value="Commitment">Commitment</option>
+                        <option value="Transparency">Transparency</option>
+                        <option value="Innovation">Innovation</option>
+                        <option value="CommunityImpact">Community Impact</option>
+                        <option value="YouthOpportunity">Youth Opportunity</option>
+                    </select>
+                }
+
+                <small class="text-muted">
+                    ⚠️ Cannot be changed after creation
+                </small>
+
+                @if (isEdit)
+                {
+                    <!-- Hidden to keep value when disabled -->
+                    <input type="hidden" asp-for="Property" />
+                }
+            </div>
+
+            <!-- MULTILINGUAL TEXT -->
+            <div class="mb-4">
+
+                <label class="form-label fw-bold">Question Text (Multilingual)</label>
+
+                <!-- English -->
+                <div class="mb-3">
+                    <label class="small text-muted">🇬🇧 English</label>
+                    <input asp-for="TextEn"
+                           class="form-control"
+                           placeholder="Enter question in English"
+                           required />
+                </div>
+
+                <!-- Amharic -->
+                <div class="mb-3">
+                    <label class="small text-muted">🇪🇹 አማርኛ</label>
+                    <input asp-for="TextAm"
+                           class="form-control"
+                           placeholder="በአማርኛ ይጻፉ" />
+                </div>
+
+                <!-- Afaan Oromo -->
+                <div class="mb-3">
+                    <label class="small text-muted">🌿 Afaan Oromo</label>
+                    <input asp-for="TextOr"
+                           class="form-control"
+                           placeholder="Afaan Oromo keessatti barreessi" />
+                </div>
+
+            </div>
+
+            <!-- RATING -->
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Max Rating</label>
+                    <input asp-for="MaxRating"
+                           type="number"
+                           class="form-control"
+                           min="1"
+                           max="5"
+                           value="@(Model?.MaxRating == 0 ? 5 : Model.MaxRating)" />
+                </div>
+
+                <div class="col-md-4 d-flex align-items-center">
+                    <div class="form-check mt-3">
+                        <input asp-for="IsRequired"
+                               class="form-check-input"
+                               type="checkbox" />
+                        <label class="form-check-label fw-bold">
+                            Required Question
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-center">
+                    <div class="form-check mt-3">
+                        <input asp-for="IsEnabled"
+                               class="form-check-input"
+                               type="checkbox"
+                               checked />
+                        <label class="form-check-label fw-bold">
+                            Enabled (Visible)
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="mt-4 d-flex justify-content-between">
+
+                <a asp-action="Dashboard" class="btn btn-outline-secondary">
+                    ⬅ Back
+                </a>
+
+                <button type="submit" class="btn btn-primary px-4">
+                    @(isEdit ? "💾 Update Question" : "🚀 Create Question")
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<style>
+    body {
+        background: #f4f6f9;
+    }
+
+    .card {
+        background: #ffffff;
+    }
+
+    .form-control, .form-select {
+        border-radius: 10px;
+    }
+
+    .btn {
+        border-radius: 25px;
+    }
+
+    .text-primary {
+        color: #003366 !important;
+    }
+</style>

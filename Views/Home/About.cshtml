@@ -1,0 +1,687 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>OSTA | Driving Digital Transformation & Innovation</title>
+
+    <!-- SEO & Social -->
+    <meta name="description" content="OSTA is Ethiopia's premier digital transformation agency, committed to building a modern digital government through innovation, transparency, and technology-driven public services." />
+    <meta name="keywords" content="OSTA, digital government, Ethiopia, innovation, digital transformation, e-services" />
+    <meta name="author" content="OSTA" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="@Context.Request.Scheme://@Context.Request.Host/Home/About" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OSTA – Digital Government Agency" />
+    <meta property="og:description" content="Driving Oromia's digital transformation through innovation, transparency, and inclusive technology." />
+    <meta property="og:image" content="~/images/osta-og-image.jpg" />
+    <meta property="og:url" content="@Context.Request.Scheme://@Context.Request.Host/Home/About" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OSTA – Digital Government Agency" />
+    <meta name="twitter:description" content="Driving Oromia's digital transformation through innovation, transparency, and inclusive technology." />
+    <meta name="twitter:image" content="~/images/osta-og-image.jpg" />
+
+    <!-- Preconnect for faster CDN loading -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Bootstrap & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        :root {
+            --primary-dark: #003366;
+            --primary-light: #1E90FF;
+            --gradient: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            --card-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        /* Sticky Header Navigation */
+        .navbar-sticky {
+            background: rgba(30,144,255,0.15);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            padding: 0.75rem 0;
+        }
+
+            .navbar-sticky .nav-link {
+                font-weight: 500;
+                color: var(--primary-dark);
+                transition: var(--transition);
+            }
+
+                .navbar-sticky .nav-link:hover {
+                    color: var(--primary-light);
+                }
+
+        .navbar-brand img {
+            height: 45px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 100px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+                background-size: cover;
+                pointer-events: none;
+            }
+
+            .hero img {
+                max-height: 90px;
+                filter: brightness(0) invert(1);
+                margin-bottom: 1rem;
+            }
+
+            .hero h1 {
+                font-weight: 800;
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+                opacity: 0.9;
+            }
+
+        /* Section Styling */
+        .section {
+            padding: 70px 0;
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+            .section-title:after {
+                content: '';
+                position: absolute;
+                bottom: -12px;
+                left: 0;
+                width: 60px;
+                height: 3px;
+                background: var(--gradient);
+                border-radius: 2px;
+            }
+
+        .card-x {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+            .card-x:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 20px 35px rgba(0,0,0,0.12);
+            }
+
+        /* Video Container */
+        .video-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .play-overlay i {
+                font-size: 4rem;
+                color: white;
+                opacity: 0.9;
+                transition: transform 0.2s;
+            }
+
+            .play-overlay:hover i {
+                transform: scale(1.1);
+            }
+
+        .video-wrapper.playing .play-overlay {
+            display: none;
+        }
+
+        /* Stats Counter - solid color to avoid linter warnings */
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+            .timeline:before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 3px;
+                background: var(--gradient);
+            }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+            .timeline-item:before {
+                content: '';
+                position: absolute;
+                left: -2.2rem;
+                top: 0.2rem;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: var(--primary-light);
+                border: 2px solid white;
+                box-shadow: 0 0 0 3px var(--primary-light);
+            }
+
+        .timeline-year {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Partners Carousel (CSS only) */
+        .partners-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+            padding: 1rem 0;
+            scrollbar-width: thin;
+        }
+
+            .partners-carousel img {
+                height: 60px;
+                filter: grayscale(0.3);
+                transition: var(--transition);
+                opacity: 0.7;
+            }
+
+                .partners-carousel img:hover {
+                    filter: grayscale(0);
+                    opacity: 1;
+                    transform: scale(1.05);
+                }
+
+        /* PDF Container */
+        .pdf-container {
+            position: relative;
+            background: #f1f5f9;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .pdf-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+
+        iframe {
+            width: 100%;
+            height: 550px;
+            border: none;
+            transition: opacity 0.3s;
+        }
+
+        /* CTA Button */
+        .btn-main {
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 32px;
+            color: white;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        }
+
+            .btn-main:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+                color: white;
+            }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gradient);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+            .back-to-top.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .back-to-top:hover {
+                transform: translateY(-3px);
+                color: white;
+            }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+            .footer a {
+                color: #9bc5ff;
+                text-decoration: none;
+                transition: 0.2s;
+            }
+
+                .footer a:hover {
+                    color: white;
+                }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 40px 0;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sticky Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-sticky fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="~/images/osta-logo.webp" alt="OSTA Logo" height="45" asp-append-version="true" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/Home/About">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Feedback/Create">Feedback</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Home/Contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <img src="~/images/osta-logo.webp" alt="OSTA Logo" asp-append-version="true" />
+        <h1>Welcome to OSTA</h1>
+        <p>Driving Digital Transformation & Innovation in Oromia</p>
+    </div>
+
+    <!-- Video Section -->
+    <div class="section container">
+        <div class="card-x">
+            <h4 class="mb-4"><i class="fas fa-play-circle me-2"></i> Introduction Video</h4>
+            <div class="video-wrapper" id="videoWrapper">
+                <video id="introVideo" preload="metadata" poster="~/images/video-poster.jpg" aria-label="OSTA introduction video">
+                    <source src="https://youtu.be/WTHvT5ThTqI" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-overlay" id="playOverlay">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+            </div>
+            <small class="text-muted mt-2 d-block">🎬 Experience OSTA's journey towards a digital Oromia</small>
+        </div>
+    </div>
+
+    <!-- Mission & Vision / About Text (Cards) -->
+    <div class="section container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card-x">
+                    <i class="fas fa-bullseye fa-2x mb-3" style="color: #1E90FF;"></i>
+                    <h4>Our Mission</h4>
+                    <p>To lead and support the region's science and technology activities at a high level, thereby accelerating the region's development</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-x">
+                    <i class="fas fa-eye fa-2x mb-3" style="color: #1E90FF;"></i>
+                    <h4>Our Vision</h4>
+                    <p>Our vision is to see a technologically modernized population by 2030.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-x mt-4">
+            <h4><i class="fas fa-info-circle me-2"></i> About OSTA</h4>
+            <p>The Oromia Science and Technology Authority (OSTA) is a governmental organizations established by the proclamation No 213/2019 G.C by the council of caffee Oromia to work on science and technology related activities in the region.</p>
+            <p>
+                The following are among the mandates given to OSTA:
+                Conducting research on science and technology development needs of the region and its implementation;</p>
+
+            <p>
+                Linking the science, technology and innovation activities in industries, universities research institutes and TVET found in the region;
+                · Organize, coordinate and delicately promote the quality infrastructure development (standardization, accreditation, metrology and conformity assessment) in the region;
+                · Standardize traditional measurements for legal acceptance;
+            </p>
+            Establish and support regional calibration and conformity assessment laboratories
+            · Work in collaboration with stakeholders on human capacity building of quality infrastructure elements.
+            Based on the above mandates, our quality infrastructure directorate working in the region foster on the quality of product and service in order to keep human and environmental safety.</p>
+        </div>
+    </div>
+
+    <!-- Stats Section (animated counters) -->
+    <div class="section container">
+        <h3 class="section-title">Our Impact at a Glance</h3>
+
+       
+    </div>
+
+    <!-- Timeline: Key Milestones -->
+    <div class="section container">
+        <h3 class="section-title">Our Journey</h3>
+        
+    </div>
+
+    <!-- Partners Section -->
+    <div class="section container">
+        <h3 class="section-title">Strategic Partners</h3>
+        <div class="partners-carousel">
+            <img src="~/images/partners/partner1.png" alt="Partner 1" onerror="this.src='https://via.placeholder.com/120x60?text=Partner1'">
+            <img src="~/images/partners/partner2.png" alt="Partner 2" onerror="this.src='https://via.placeholder.com/120x60?text=Partner2'">
+            <img src="~/images/partners/partner3.png" alt="Partner 3" onerror="this.src='https://via.placeholder.com/120x60?text=Partner3'">
+            <img src="~/images/partners/partner4.png" alt="Partner 4" onerror="this.src='https://via.placeholder.com/120x60?text=Partner4'">
+        </div>
+        <p class="text-muted text-center mt-3">Collaborating with global and local leaders to drive innovation.</p>
+    </div>
+
+    <!-- Presentation (PDF) with loading indicator -->
+    <div class="section container">
+        <div class="card-x">
+            <h4 class="mb-3"><i class="fas fa-file-powerpoint me-2"></i> OSTA Strategic Presentation</h4>
+            <div class="pdf-container" id="pdfContainer">
+                <div class="pdf-loading" id="pdfLoading">Loading presentation...</div>
+                <iframe id="pdfFrame" src="/files/osta-presentation.pdf" title="OSTA Presentation" loading="lazy" style="opacity:0;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="section text-center">
+        <a href="/Feedback/Create" class="btn btn-main btn-lg">
+            <i class="fas fa-comment-dots me-2"></i> Give Your Feedback
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-md-start mb-3 mb-md-0">
+                    <p class="mb-0">&copy; <span id="currentYear"></span> OSTA Digital Exhibition. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="me-3">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            // ========== VIDEO PLAYER ==========
+            const video = document.getElementById('introVideo');
+            const wrapper = document.getElementById('videoWrapper');
+            const overlay = document.getElementById('playOverlay');
+
+            if (video && overlay) {
+                video.pause();
+                wrapper.classList.remove('playing');
+
+                overlay.addEventListener('click', function() {
+                    video.play();
+                    wrapper.classList.add('playing');
+                });
+
+                video.addEventListener('ended', function() {
+                    wrapper.classList.remove('playing');
+                    overlay.style.display = 'flex';
+                });
+
+                video.addEventListener('play', function() {
+                    wrapper.classList.add('playing');
+                    overlay.style.display = 'none';
+                });
+
+                video.addEventListener('pause', function() {
+                    if (!video.ended) {
+                        wrapper.classList.remove('playing');
+                        overlay.style.display = 'flex';
+                    }
+                });
+            }
+
+            // ========== STATS COUNTER ==========
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+
+            const animateCounter = (counter) => {
+                const target = parseFloat(counter.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / speed;
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            };
+
+            // Intersection Observer for counters
+            const observerOptions = { threshold: 0.5 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        animateCounter(counter);
+                        observer.unobserve(counter);
+                    }
+                });
+            }, observerOptions);
+
+            counters.forEach(counter => observer.observe(counter));
+
+            // ========== PDF LOADING INDICATOR ==========
+            const pdfFrame = document.getElementById('pdfFrame');
+            const pdfLoading = document.getElementById('pdfLoading');
+            if (pdfFrame && pdfLoading) {
+                pdfFrame.addEventListener('load', function() {
+                    pdfLoading.style.display = 'none';
+                    pdfFrame.style.opacity = '1';
+                });
+                // Fallback: if PDF loads slowly, ensure loading disappears after 5s
+                setTimeout(() => {
+                    if (pdfLoading.style.display !== 'none') {
+                        pdfLoading.style.display = 'none';
+                        pdfFrame.style.opacity = '1';
+                    }
+                }, 5000);
+            }
+
+            // ========== BACK TO TOP BUTTON ==========
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+            backToTop.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ========== DYNAMIC YEAR ==========
+            document.getElementById('currentYear').innerText = new Date().getFullYear();
+        })();
+    </script>
+
+    <!-- Structured Data (Organization Schema) -->
+    <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "Organization",
+            "name": "OSTA",
+            "url": "@Context.Request.Scheme://@Context.Request.Host",
+            "logo": "@Context.Request.Scheme://@Context.Request.Host/images/osta-logo.webp",
+            "description": "Office of the Special Advisor for Technology and Innovation, driving digital transformation in Ethiopia.",
+            "sameAs": [
+                "https://twitter.com/OSTA_Ethiopia",
+                "https://www.linkedin.com/company/osta-ethiopia"
+            ]
+        }
+    </script>
+</body>
+</html>

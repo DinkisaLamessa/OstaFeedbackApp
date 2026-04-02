@@ -1,0 +1,105 @@
+﻿@model List<OstaFeedbackApp.Models.Question>
+
+@{
+    Layout = "_Layout";
+    var questions = Model ?? new List<OstaFeedbackApp.Models.Question>();
+}
+
+<h2 class="mb-3">📝 Manage Questions</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">➕ Add New Question</a>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>#</th>
+            <th>Property</th>
+            <th>English</th>
+            <th>አማርኛ</th>
+            <th>Afaan Oromo</th>
+            <th>Max</th>
+            <th>Required</th>
+            <th>Status</th>
+            <th style="width:200px;">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (questions.Any())
+        {
+            @for (int i = 0; i < questions.Count; i++)
+            {
+                var q = questions[i];
+
+                <tr class="@(q.IsEnabled ? "" : "table-secondary")">
+                    <td>@(i + 1)</td>
+
+                    <td>
+                        <span class="badge bg-dark">@q.Property</span>
+                    </td>
+
+                    <td>@(q.TextEn ?? "-")</td>
+                    <td>@(q.TextAm ?? "-")</td>
+                    <td>@(q.TextOr ?? "-")</td>
+
+                    <td>@q.MaxRating</td>
+
+                    <td>
+                        <span class="badge @(q.IsRequired ? "bg-danger" : "bg-secondary")">
+                            @(q.IsRequired ? "Required" : "Optional")
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge @(q.IsEnabled ? "bg-success" : "bg-secondary")">
+                            @(q.IsEnabled ? "Enabled" : "Disabled")
+                        </span>
+                    </td>
+
+                    <td class="d-flex gap-1 flex-wrap">
+                        <!-- EDIT -->
+                        <a asp-action="Edit"
+                           asp-route-id="@q.Id"
+                           class="btn btn-sm btn-primary">
+                            ✏️ Edit
+                        </a>
+
+                        <!-- TOGGLE -->
+                        <form asp-action="ToggleQuestion"
+                              method="post"
+                              style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@q.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-sm @(q.IsEnabled ? "btn-warning" : "btn-success")">
+                                @(q.IsEnabled ? "Disable" : "Enable")
+                            </button>
+                        </form>
+
+                        <!-- DELETE -->
+                        <form asp-action="DeleteQuestion"
+                              method="post"
+                              style="display:inline;"
+                              onsubmit="return confirm('Delete this question?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@q.Id" />
+
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                🗑 Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-center text-muted">
+                    🚫 No questions found
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

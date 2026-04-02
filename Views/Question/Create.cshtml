@@ -1,0 +1,224 @@
+﻿@model OstaFeedbackApp.Models.Feedback
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSTA Feedback</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1B4F72;
+            --accent: #2E86C1;
+            --orange: #E67E22;
+            --light: #F4F6F7;
+        }
+
+        body {
+            background: linear-gradient(135deg,#eef2f7,#ffffff);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .main {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .lang-btn {
+            border-radius: 50px;
+            padding: 6px 18px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+            .lang-btn.active {
+                background: var(--primary);
+                color: white;
+            }
+
+        .question {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .rating label {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: #eee;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+            .rating input:checked + label {
+                background: var(--primary);
+                color: white;
+            }
+
+        .progress {
+            height: 10px;
+        }
+
+        .submit-btn {
+            background: var(--orange);
+            border: none;
+            border-radius: 50px;
+            padding: 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        @@media (max-width: 600px) {
+            .main {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main">
+        <h3 class="title">OSTA Feedback</h3>
+
+        <div class="mb-3">
+            <button type="button" class="lang-btn" data-lang="en">English</button>
+            <button type="button" class="lang-btn" data-lang="am">አማርኛ</button>
+            <button type="button" class="lang-btn" data-lang="or">Oromoo</button>
+        </div>
+
+        <div class="progress mb-2">
+            <div id="progressBar" class="progress-bar bg-success" style="width:0%"></div>
+        </div>
+        <small id="progressText">0%</small>
+
+        <form method="post" asp-action="Create" id="form">
+            @Html.AntiForgeryToken()
+
+            <div id="questions"></div>
+
+            <input type="hidden" name="Commitment" id="Commitment" />
+            <input type="hidden" name="Transparency" id="Transparency" />
+            <input type="hidden" name="Innovation" id="Innovation" />
+            <input type="hidden" name="CommunityImpact" id="CommunityImpact" />
+            <input type="hidden" name="YouthOpportunity" id="YouthOpportunity" />
+
+            <textarea name="Impressed" class="form-control mt-3" placeholder="What impressed you?"></textarea>
+            <textarea name="Improvement" class="form-control mt-2" placeholder="Improvement"></textarea>
+
+            <button type="button" id="submitBtn" class="submit-btn mt-3 w-100" disabled>Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const questionsData = [
+                { property:"Commitment", required:true, text:{en:"Commitment",am:"ቁርጠኝነት",or:"Kutannoo"} },
+                { property:"Transparency", required:true, text:{en:"Transparency",am:"ግልጽነት",or:"Iftoomina"} },
+                { property:"Innovation", required:true, text:{en:"Innovation",am:"ፈጠራ",or:"Kalaqa"} },
+                { property:"CommunityImpact", required:false, text:{en:"Community Impact",am:"ማህበረሰብ ተፅእኖ",or:"Dhiibbaa hawaasaa"} },
+                { property:"YouthOpportunity", required:true, text:{en:"Youth Opportunity",am:"የወጣቶች እድል",or:"Carraa dargaggootaa"} }
+            ];
+
+            let lang = localStorage.getItem("lang") || "en";
+
+            function render() {
+                const container = document.getElementById("questions");
+                if (!container) {
+                    console.error("Element with id 'questions' not found!");
+                    return;
+                }
+                container.innerHTML = "";
+
+                questionsData.forEach(q => {
+                    let questionText = q.text[lang];
+                    if (!questionText) questionText = q.text.en; // fallback
+
+                    let html = `<div class="question">
+                        <b>${escapeHtml(questionText)}</b>
+                        <div class="rating">`;
+                    for (let i = 1; i <= 5; i++) {
+                        html += `<input type="radio" name="${q.property}" value="${i}" id="${q.property}_${i}">
+                                 <label for="${q.property}_${i}">${i}</label>`;
+                    }
+                    html += `</div></div>`;
+                    container.innerHTML += html;
+                });
+
+                // Attach change events to all radio buttons
+                document.querySelectorAll("input[type=radio]").forEach(r => {
+                    r.addEventListener("change", function() {
+                        const hidden = document.getElementById(this.name);
+                        if (hidden) hidden.value = this.value;
+                        updateProgress();
+                    });
+                });
+            }
+
+            function updateProgress() {
+                const total = questionsData.filter(q => q.required).length;
+                let answered = 0;
+                questionsData.forEach(q => {
+                    if (q.required && document.querySelector(`input[name="${q.property}"]:checked`)) {
+                        answered++;
+                    }
+                });
+                const percent = total === 0 ? 100 : Math.floor((answered / total) * 100);
+                const progressBar = document.getElementById("progressBar");
+                const progressText = document.getElementById("progressText");
+                const submitBtn = document.getElementById("submitBtn");
+                if (progressBar) progressBar.style.width = percent + "%";
+                if (progressText) progressText.innerText = percent + "%";
+                if (submitBtn) submitBtn.disabled = answered < total;
+            }
+
+            // Helper to prevent XSS
+            function escapeHtml(str) {
+                return str.replace(/[&<>]/g, function(m) {
+                    if (m === '&') return '&amp;';
+                    if (m === '<') return '&lt;';
+                    if (m === '>') return '&gt;';
+                    return m;
+                });
+            }
+
+            const submitBtn = document.getElementById("submitBtn");
+            if (submitBtn) {
+                submitBtn.addEventListener("click", () => {
+                    if (submitBtn.disabled) {
+                        alert("Complete required fields");
+                        return;
+                    }
+                    document.getElementById("form").submit();
+                });
+            }
+
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    lang = btn.dataset.lang;
+                    localStorage.setItem("lang", lang);
+                    render();
+                });
+            });
+
+            render(); // initial render
+        });
+    </script>
+
+</body>
+</html>
